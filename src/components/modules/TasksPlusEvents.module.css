@@ -1,0 +1,381 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+  position: relative;
+  z-index: 1001;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.closeModal {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.calendarContainer {
+  flex: 0 0 400px;
+}
+
+.calendar {
+  width: 100%;
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.legend {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #4B5563;
+}
+
+.tileContent {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.25rem;
+}
+
+.taskDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #3B82F6; /* Blue for active tasks */
+}
+
+.completedDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10B981; /* Green for completed tasks */
+}
+
+.eventDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #8B5CF6; /* Purple for events */
+}
+
+.hasItems {
+  background-color: #F3F4F6;
+}
+
+.itemsContainer {
+  flex: 1;
+  min-width: 0;
+}
+
+.dateTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1.5rem;
+}
+
+.section {
+  margin-bottom: 2rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #E5E7EB;
+}
+
+.subsection {
+  margin-bottom: 1.5rem;
+}
+
+.subsection:last-child {
+  margin-bottom: 0;
+}
+
+.subsectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4B5563;
+  margin-bottom: 1rem;
+}
+
+/* Style for completed tasks section */
+.section:has(h3:contains("Completed")) {
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+}
+
+.section:has(h3:contains("Completed")) .sectionTitle {
+  color: #6B7280;
+  border-bottom-color: #E5E7EB;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.taskItem, .eventItem {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.taskItem:hover, .eventItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.itemHeader h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.time {
+  font-size: 0.875rem;
+  color: #6B7280;
+  background-color: #F3F4F6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+}
+
+.description {
+  color: #4B5563;
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+}
+
+.itemFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+.category {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  color: white;
+}
+
+.status {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.notstarted {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.inprogress {
+  background-color: #DBEAFE;
+  color: #1E40AF;
+}
+
+.completed {
+  background-color: #D1FAE5;
+  color: #065F46;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  background-color: #F9FAFB;
+  border-radius: 0.75rem;
+  color: #6B7280;
+}
+
+/* Calendar overrides */
+:global(.react-calendar) {
+  border: none;
+  font-family: inherit;
+}
+
+:global(.react-calendar__tile) {
+  padding: 0.75rem 0.5rem;
+  position: relative;
+}
+
+:global(.react-calendar__tile--now) {
+  background-color: #EFF6FF;
+}
+
+:global(.react-calendar__tile--active) {
+  background-color: #3B82F6;
+  color: white;
+}
+
+:global(.react-calendar__tile--active:hover) {
+  background-color: #2563EB;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.statusSelect {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid #E5E7EB;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.statusSelect:hover {
+  border-color: #D1D5DB;
+}
+
+.statusSelect.notstarted {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.statusSelect.inprogress {
+  background-color: #DBEAFE;
+  color: #1E40AF;
+}
+
+.statusSelect.completed {
+  background-color: #D1FAE5;
+  color: #065F46;
+}
+
+.statusSelect.notcompleted {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.filterContainer {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.filterLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4B5563;
+  white-space: nowrap;
+}
+
+.typeFilter, .categoryFilter {
+  padding: 0.5rem 1rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.375rem;
+  background-color: white;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  min-width: 120px;
+}
+
+.typeFilter:hover, .categoryFilter:hover {
+  border-color: #D1D5DB;
+}
+
+.typeFilter:focus, .categoryFilter:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.editIcon {
+  width: 16px;
+  height: 16px;
+  margin: 0 8px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.editIcon:hover {
+  opacity: 1;
+} 

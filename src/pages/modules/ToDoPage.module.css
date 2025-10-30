@@ -1,0 +1,202 @@
+.todo {
+    display: flex;
+    flex-direction: column;
+    /*width: 100vw;*/
+    min-height: 100vh;
+    background: #f8f9fa;
+    margin-left: 260px;
+}
+
+/* Header Section */
+.todoHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #e9ecef;
+}
+
+.todoHeader h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.todoButtons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.sectionButton {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    background: white;
+    color: #6c757d;
+}
+
+.sectionButton:hover {
+    border-color: #007bff;
+    color: #007bff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.15);
+}
+
+.sectionButton.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.sectionButton.active:hover {
+    background: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Content Section */
+.todoContent {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Section Headers */
+.sectionHeader {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.sectionHeader h2 {
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.sectionHeader p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+/* Tasks Section */
+.tasksSection {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+}
+
+.tasksContent {
+    margin-top: 1.5rem;
+}
+
+/* Categories Section */
+.categoriesSection {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+}
+
+.categoriesContent {
+    margin-top: 1.5rem;
+}
+
+/* Events Section */
+.eventsSection {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+}
+
+.eventsContent {
+    margin-top: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .todo {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .todoHeader {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .todoHeader h1 {
+        font-size: 1.5rem;
+    }
+    
+    .todoButtons {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .sectionButton {
+        flex: 1;
+        max-width: 120px;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .todoContent {
+        padding: 1rem;
+    }
+    
+    .tasksSection,
+    .categoriesSection,
+    .eventsSection {
+        padding: 1.5rem;
+    }
+    
+    .sectionHeader h2 {
+        font-size: 1.5rem;
+    }
+    
+    .sectionHeader p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .todoHeader {
+        padding: 0.75rem;
+    }
+    
+    .todoContent {
+        padding: 0.75rem;
+    }
+    
+    .tasksSection,
+    .categoriesSection,
+    .eventsSection {
+        padding: 1rem;
+    }
+    
+    .todoButtons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .sectionButton {
+        max-width: none;
+    }
+}

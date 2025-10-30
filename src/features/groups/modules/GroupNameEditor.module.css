@@ -1,0 +1,99 @@
+.displayContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.displayContainer h2 {
+    margin: 0;
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.editButton {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.editButton:hover {
+    background: #f0f0f0;
+}
+
+.editContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nameInput {
+    font-size: 1.8rem;
+    font-weight: bold;
+    padding: 0.5rem;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+    background: white;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.nameInput:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.nameInput:disabled {
+    background: #f8f9fa;
+    cursor: not-allowed;
+}
+
+.editActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.saveButton {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.saveButton:hover:not(:disabled) {
+    background: #218838;
+}
+
+.saveButton:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.cancelButton {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.cancelButton:hover:not(:disabled) {
+    background: #5a6268;
+}
+
+.cancelButton:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+} 

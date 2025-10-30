@@ -1,0 +1,141 @@
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { editEvent } from './eventSlice';
+import { selectCatagory } from '../catagories/catagorySlice';
+import styles from './modules/EditEventModal.module.css';
+
+const formatDateForInput = (dateStr) => {
+    const date = new Date(dateStr);
+    const offset = date.getTimezoneOffset() * 60000;
+    return new Date(date.getTime() - offset).toISOString().slice(0, 16);
+};
+
+function EditEventModal({ event, toggleEditEventModal, onEventUpdated }) {
+    const dispatch = useDispatch();
+    const categories = useSelector(selectCatagory);
+
+    const [eventName, setEventName] = useState(event.name);
+    const [eventCategory, setEventCategory] = useState(event.catagory);
+    const [eventCategoryId, setEventCategoryId] = useState(event.category_id);
+    const [description, setDescription] = useState(event.description);
+    const [startTime, setStartTime] = useState(event.startTime);
+    const [endTime, setEndTime] = useState(event.endTime);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    useEffect(() => {
+        setEventName(event.name);
+        /*setEventCategory(event.catagory);*/
+        setEventCategoryId(event.category_id);
+        setDescription(event.description);
+        setStartTime(event.startTime);
+        setEndTime(event.endTime);
+    }, [event]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!eventName.trim() || isSubmitting) return;
+
+        setIsSubmitting(true);
+        try {
+            console.log('Submitting event update...');
+            const response = await fetch(`http://localhost:4000/events/${event.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    name: eventName,
+                    /*catagory: eventCategory,*/
+                    description,
+                    start_time: startTime,
+                    end_time: endTime,
+                    status: event.status,
+                    category_id: eventCategoryId
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update event');
+            }
+
+            const updatedEvent = await response.json();
+            console.log('Event updated successfully:', updatedEvent);
+            
+            // Update Redux store
+            dispatch(editEvent(updatedEvent));
+            
+            // Call the onEventUpdated callback
+            await onEventUpdated();
+            
+            // The modal will be closed by the parent component
+        } catch (error) {
+            console.error('Error updating event:', error);
+            setIsSubmitting(false);
+        }
+    };
+
+    return (
+        <form className={styles.eventForm} onSubmit={handleSubmit}>
+            <h3 className={styles.editEventTitle}>Edit Event</h3>
+            <div>
+                <label htmlFor="eventName">Event: </label>
+                <input 
+                    id='eventName'
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    type='text'
+                    placeholder="Enter event title"
+                    className={styles.eventNameInput}
+                />
+            </div>
+            <div>
+                <label htmlFor='eventCategory'>Category: </label>
+                <select
+                    id='eventCategory'
+                    value={eventCategoryId}
+                    onChange={(e) => setEventCategoryId(Number(e.target.value))}
+                >
+                    <option value='' disabled>-- Select Category --</option>
+                    {categories.map(category => (
+                        <option key={category.id} value={category.id}>
+                            {category.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div>
+                <label htmlFor="eventDesc">Description: </label>
+                <textarea 
+                    id='eventDesc'
+                    rows="5" 
+                    cols="30"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Enter event description"
+                    className={styles.eventDescInput}
+                />
+            </div>
+            <div>
+                <label htmlFor="startTime">Start Time:</label>
+                <input
+                    id='startTime'
+                    value={formatDateForInput(startTime)}
+                    onChange={(e) => setStartTime(e.target.value)}
+                    type='datetime-local'
+                />
+            </div>
+            <div>
+                <label htmlFor="endTime">End Time:</label>
+                <input
+                    id='endTime'
+                    value={formatDateForInput(endTime)}
+                    onChange={(e) => setEndTime(e.target.value)}
+                    type='datetime-local'
+                />
+            </div>
+            <button className={styles.updateButton} type='submit'>Update Event</button>
+        </form>
+    );
+}
+
+export default EditEventModal; 

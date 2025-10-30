@@ -1,0 +1,18 @@
+
+.taskForm > * + * {
+    margin-top: 1rem;
+    text-align: left;
+}
+
+
+.addButton {
+    position: absolute;
+    right: 50%;
+}
+
+.newTaskTitle {
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+}
+
+

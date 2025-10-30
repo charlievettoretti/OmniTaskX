@@ -1,0 +1,105 @@
+
+
+.colorSquare {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+  }
+
+
+body.activeModal {
+    overflow-y: hidden;
+}
+
+.modal, .overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    color: white;
+}
+
+.overlay {
+    background: rgba(49, 49, 49, 0.8)
+}
+
+/*.openModal {
+    position: absolte;
+    top: 50%;
+    left: 50%;
+    height: 100px;
+    width: 500px;
+}*/
+
+.openModal:hover {
+    cursor: pointer;
+}
+
+.modalContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.4;
+    background: #282c34;
+    padding: 14px 28px;
+    border-radius: 3px;
+    max-width: 600px;
+    min-width: 300px;
+    border-color: white;
+    border-style: solid;
+}
+
+.closeModal {
+    color: blue;
+}
+
+.closeModal:hover {
+    cursor: pointer;
+}
+
+.catagoryTitle {
+    text-align: center;
+    padding-left: 0.5em;
+    margin-bottom: 0;
+    margin-top: 0.25em;
+}
+
+.catagoryAll {
+    display: flex;
+    flex-direction: column;
+    color: black;
+    border-style: solid;
+
+    padding-right: 0.5em;
+    align-items: center;
+    justify-content: center;
+}
+
+.catagoryList {
+    list-style: none;
+}
+
+.catagoryEditIcon {
+    max-height: 0.6em;
+    margin-left: 0.5em;
+}
+
+.catagoryEditIcon:hover {
+    cursor: pointer;
+}
+/*
+.catagoryItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.3em 0;
+    width: 100%;
+}*/

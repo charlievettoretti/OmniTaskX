@@ -1,0 +1,10 @@
+.dashboard {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 260px; /* Account for NavBar width */
+    width: calc(100% - 260px); /* Subtract NavBar width from total width */
+    box-sizing: border-box;
+}

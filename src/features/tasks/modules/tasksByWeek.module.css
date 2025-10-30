@@ -1,0 +1,40 @@
+.weekGrid {
+    display: grid;
+    
+    min-height: 500px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1rem;
+    padding-top: 1rem;
+    padding-left: 20px;
+    padding-right: 30px;
+    margin-bottom: 2rem;
+  }
+  
+  .dayColumn {
+    background-color: #f4f4f4;
+    /*border-radius: 8px;*/
+    
+    width: 100%;
+    border-style: solid;
+    border-color: black;
+  }
+  
+  .dayHeader {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    background-color: #AEB6BF;
+    width: 100%;
+    color: black;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .taskItem {
+    margin: 4px 0;
+    padding: 6px;
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    color: black;
+  }
