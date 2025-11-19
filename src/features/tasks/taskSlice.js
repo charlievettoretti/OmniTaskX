@@ -56,7 +56,13 @@ const taskSlice = createSlice({
                     id: action.payload.category_id,
                     name: action.payload.categoryName,
                     color: action.payload.categoryColor
-                }
+                },
+
+                estimated_duration_minutes: action.payload.estimated_duration_minutes ?? null,
+                energy_level: action.payload.energy_level ?? null,
+                location_type: action.payload.location_type ?? null,
+                flexibility: action.payload.flexibility ?? null, 
+                is_habit: action.payload.is_habit ?? false,
             });
         },
 
@@ -95,7 +101,13 @@ const taskSlice = createSlice({
                         id: updatedTask.category_id,
                         name: updatedTask.category_name,
                         color: updatedTask.category_color
-                    }
+                    },
+
+                    estimated_duration_minutes: updatedTask.estimated_duration_minutes ?? null,
+                    energy_level: updatedTask.energy_level ?? null,
+                    location_type: updatedTask.location_type ?? null,
+                    flexibility: updatedTask.flexibility ?? null, 
+                    is_habit: updatedTask.is_habit ?? false,
                 };
             }
         },
@@ -122,8 +134,10 @@ const taskSlice = createSlice({
                 }));
             })*/
             .addCase(fetchTasks.fulfilled, (state, action) => {
-                console.log('Tasks fetched from backend', action.payload);
+                //console.log('Tasks fetched from backend', action.payload);
+
                 state.loading = false;
+                
                 state.tasks = action.payload.map(task => ({
                     user_id: task.user_id,
                     id: task.id,
@@ -137,9 +151,45 @@ const taskSlice = createSlice({
                         id: task.category_id,
                         name: task.category_name,
                         color: task.category_color
-                    }
+                    },
+                    estimated_duration_minutes: task.estimated_duration_minutes,
+                    energy_level: task.energy_level,
+                    location_type: task.location_type,
+                    flexibility: task.flexibility,
+                    is_habit: task.is_habit
                 }));
+                
+                /*
+                const mapped = action.payload.map(task => {
+                    const mappedTask = {
+                        user_id: task.user_id,
+                        id: task.id,
+                        name: task.name,
+                        description: task.description,
+                        dateTime: task.due_date,
+                        urgency: task.urgency,
+                        status: task.status || 'Not Started',
+                        category_id: task.category_id,
+                        category: {
+                            id: task.category_id,
+                            name: task.category_name,
+                            color: task.category_color
+                        },
+                        estimated_duration_minutes: task.estimated_duration_minutes,
+                        energy_level: task.energy_level,
+                        location_type: task.location_type,
+                        flexibility: task.flexibility,
+                        is_habit: task.is_habit
+                    };
+
+                    console.log('Mapped Single Task:', mappedTask);
+                    return mappedTask;
+                });
+
+                //console.log('Mapped Single Task:', )
+                state.tasks = mapped;*/
             })
+
             .addCase(fetchTasks.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || 'Error fetching tasks';

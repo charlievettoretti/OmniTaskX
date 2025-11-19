@@ -3,6 +3,7 @@ import styles from './modules/ToDoPage.module.css'
 import TaskList from '../features/tasks/TaskList.js';
 import Catagories from '../features/catagories/Catagories.js';
 import Events from '../features/events/Events.js';
+import GeneralTasks from '../features/general/GeneralTasks.js';
 
 function ToDoPage() {
     const [activeSection, setActiveSection] = useState('tasks'); // 'tasks', 'categories', 'events'
@@ -18,6 +19,12 @@ function ToDoPage() {
                         className={`${styles.sectionButton} ${activeSection === 'tasks' ? styles.active : ''}`}
                     >
                         Tasks
+                    </button>
+                    <button
+                        onClick={() => setActiveSection('general')}
+                        className={`${styles.sectionButton} ${activeSection === 'general' ? styles.active : ''}`}
+                    >
+                        General Tasks
                     </button>
                     <button 
                         onClick={() => setActiveSection('categories')} 
@@ -47,6 +54,17 @@ function ToDoPage() {
                         
                         <div className={styles.tasksContent}>
                             <TaskList />
+                        </div>
+                    </div>
+                )}
+                {activeSection === 'general' && (
+                    <div className={styles.generalSection}>
+                        <h2>General Task Management</h2>
+                        <div className={styles.sectionHeader}>
+                            <h2>General Task Management</h2>
+                            <div className={styles.generalContent}>
+                                <GeneralTasks />
+                            </div>
                         </div>
                     </div>
                 )}

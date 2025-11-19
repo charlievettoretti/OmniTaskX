@@ -53,7 +53,8 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     const event_id = req.params.id;
     const user_id = req.user?.id;
-    console.log('user_id:', user_id, 'event_id:', event_id);
+    
+    //console.log('user_id:', user_id, 'event_id:', event_id);
 
     if (!user_id) {
         return res.status(401).json({ error: 'Unauthorized'});

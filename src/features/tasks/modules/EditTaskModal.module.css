@@ -1,8 +1,12 @@
+
+
 .taskForm {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
+    max-height: calc(90vh - 4rem);
+    overflow-y: auto;
 }
 
 .taskNameInput {
@@ -46,7 +50,9 @@ select {
     font-size: 1rem;
 }
 
-input[type="datetime-local"] {
+input[type="datetime-local"],
+input[type="number"],
+input[type="text"] {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid #ccc;
@@ -69,4 +75,10 @@ input[type="datetime-local"] {
 .editTaskTitle {
     margin: 0 0 1rem 0;
     color: #333;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 } 

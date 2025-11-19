@@ -4,11 +4,19 @@ import { editTask } from './taskSlice';
 import { selectCatagory } from '../catagories/catagorySlice';
 import styles from './modules/EditTaskModal.module.css';
 
+
 const formatDateForInput = (dateStr) => {
     const date = new Date(dateStr);
     const offset = date.getTimezoneOffset() * 60000;
     return new Date(date.getTime() - offset).toISOString().slice(0, 16);
   };
+  /*
+  const formatDateForInput = (dateStr) => {
+    if (!dateStr) return '';
+    // If it's already in the format "YYYY-MM-DD HH:MM:SS", convert to "YYYY-MM-DDTHH:MM"
+    const cleanStr = dateStr.replace(' ', 'T').slice(0, 16);
+    return cleanStr;
+};*/
 
 function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
     const dispatch = useDispatch();
@@ -19,7 +27,16 @@ function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
     const [description, setDescription] = useState(task.description);
     const [dateTime, setDateTime] = useState(task.dateTime);
     const [urgency, setUrgency] = useState(task.urgency);
+
+    const [estimatedDurationMinutes, setEstimatedDurationMinutes] = useState(task.estimated_duration_minutes);
+    const [energyLevel, setEnergyLevel] = useState(task.energy_level);
+    const [locationType, setLocationType] = useState(task.location_type);
+    const [flexibility, setFlexibility] = useState(task.flexibility);
+    const [isHabit, setIsHabit] = useState(task.is_habit);
+
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    //console.log("EditTaskModal RECEIVED TASK:", task);
 
     useEffect(() => {
         setTaskName(task.name);
@@ -27,6 +44,11 @@ function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
         setDescription(task.description);
         setDateTime(task.dateTime);
         setUrgency(task.urgency);
+        setEstimatedDurationMinutes(task.estimated_duration_minutes);
+        setEnergyLevel(task.energy_level);
+        setLocationType(task.location_type);
+        setFlexibility(task.flexibility);
+        setIsHabit(task.is_habit);
     }, [task]);
 
     const handleSubmit = async (e) => {
@@ -36,6 +58,13 @@ function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
         setIsSubmitting(true);
         try {
             console.log('Submitting task update...');
+
+            // ADDED HERE
+            /*
+            const formattedDateTime = dateTime.includes('T') 
+                ? dateTime.replace('T', ' ') + ':00' 
+                : dateTime;*/
+
             const response = await fetch(`http://localhost:4000/tasks/${task.id}`, {
                 method: 'PUT',
                 headers: {
@@ -47,8 +76,14 @@ function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
                     category_id: taskCategoryId,
                     description,
                     due_date: dateTime,
+                    //due_date: formattedDateTime,
                     status: task.status,
-                    urgency
+                    urgency,
+                    estimated_duration_minutes: estimatedDurationMinutes,
+                    energy_level: energyLevel,
+                    location_type: locationType,
+                    flexibility,
+                    is_habit: isHabit
                 })
             });
 
@@ -57,7 +92,7 @@ function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
             }
 
             const updatedTask = await response.json();
-            console.log('Task updated successfully:', updatedTask);
+            //console.log('Task updated successfully:', updatedTask);
             
             // Update Redux store
             dispatch(editTask(updatedTask));
@@ -156,6 +191,66 @@ function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
                     <option value={4}>High</option>
                     <option value={5}>Critical</option>
                 </select>
+            </div>
+            <div>
+                <label htmlFor="estimated_duration_minutes">Estimated Duration (minutes)</label>
+                <input
+                    id='estimated_duration_minutes'
+                    value={estimatedDurationMinutes || ''}
+                    onChange={(e) => setEstimatedDurationMinutes(e.target.value ? Number(e.target.value) : null)}
+                    onWheel={(e) => e.target.blur()}
+                    type='number'
+                />
+            </div>
+            <div>
+                <label htmlFor="energy_level">Energy Level: </label>
+                <select
+                id="energy_level"
+                value={energyLevel}
+                onChange={(e) => setEnergyLevel(e.target.value)}
+                
+                >
+                    <option value="">Select</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div>
+                <label htmlFor="location_type">Location Type: </label>
+                <select
+                id="location_type"
+                value={locationType}
+                onChange={(e) => setLocationType(e.target.value)}
+                >
+                    <option value="">Select</option>
+                    <option value="home">Home</option>
+                    <option value="office">Office</option>
+                    <option value="anywhere">Anywhere</option>
+                </select>
+            </div>
+            <div>
+                <label htmlFor="flexibility">Flexibility: </label>
+                <select
+                id="flexibility"
+                value={flexibility}
+                onChange={(e) => setFlexibility(e.target.value)}
+                >
+                    <option value="">Select</option>
+                    <option value="day-flexible">Any time this day</option>
+                    <option value="week-flexible">Any time this week</option>
+                </select>
+            </div>
+            <div>
+                <label htmlFor="habit">
+                    <input
+                    id="habit"
+                    type="checkbox"
+                    checked={isHabit}
+                    onChange={(e) => setIsHabit(e.target.checked)}
+                     />
+                      -- This is a habit:
+                </label>
             </div>
             <button className={styles.updateButton} type='submit'>Update Task</button>
         </form>

@@ -9,7 +9,7 @@ function AddEventModal({ toggleEventModal }) {
     const catagories = useSelector(selectCatagory);
 
     const [eventName, setEventName] = useState('');
-    const [eventCatagory, setEventCatagory] = useState('');
+    //const [eventCatagory, setEventCatagory] = useState('');
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
@@ -18,8 +18,14 @@ function AddEventModal({ toggleEventModal }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!eventName.trim() || !selectedCategoryId) return;
-        const category = catagories.find(cat => cat.id === selectedCategoryId);
+        if (!eventName.trim()) return;
+
+        const categoryIdToSend = 
+            selectedCategoryId === '' || selectedCategoryId == null
+                ? null
+                : selectedCategoryId;
+
+        const category = catagories.find(cat => cat.id === categoryIdToSend);
 
         const newEvent = {
             name: eventName,
@@ -28,7 +34,7 @@ function AddEventModal({ toggleEventModal }) {
             start_time: startTime,
             end_time: endTime,
             status: 'Not Completed',
-            category_id: selectedCategoryId
+            category_id: categoryIdToSend,
         };
 
         try {
@@ -50,12 +56,13 @@ function AddEventModal({ toggleEventModal }) {
                 endTime: data.end_time,
                 description: data.description,
                 category_id: data.category_id,
-                categoryName: category.name,
-                categoryColor: category.color
+                categoryName: category?.name ?? null,
+                categoryColor: category?.color ?? null
             }));
             toggleEventModal();
             setEventName('');
-            setEventCatagory('');
+            //setEventCatagory('');
+            setSelectedCategoryId('');
             setStartTime('');
             setEndTime('');
             setDescription('');

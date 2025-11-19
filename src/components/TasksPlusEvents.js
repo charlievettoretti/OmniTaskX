@@ -111,8 +111,8 @@ function TasksPlusEvents() {
   const { activeTasks, completedTasks, events: selectedEvents } = getItemsForDate(selectedDate);*/
   const { activeTasks, completedTasks, events: selectedEvents } = useMemo(() => {
     const result = getItemsForDate(selectedDate);
-    console.log('Events for selected date:', result.events);
-    console.log('Tasks for selected date:', result.activeTasks, result.completedTasks);
+    //console.log('Events for selected date:', result.events);
+    //console.log('Tasks for selected date:', result.activeTasks, result.completedTasks);
     return result;
   }, [selectedDate, tasks, events, selectedCategory, selectedType, refreshFlag]);
 
@@ -128,9 +128,20 @@ function TasksPlusEvents() {
   const getTaskCategoryColor = (task) => {
     return task.category?.color || '#E5E7EB';
   };
-
+  /*
   const formatTime = (dateTime) => {
     return new Date(dateTime).toLocaleTimeString([], { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: true 
+    });
+  };*/
+  const formatTime = (dateTime) => {
+    // Parse the datetime string as local time, not UTC
+    const dateStr = dateTime.replace(' ', 'T'); // Convert "2025-11-18 09:00:00" to "2025-11-18T09:00:00"
+    const date = new Date(dateStr);
+    
+    return date.toLocaleTimeString([], { 
       hour: '2-digit', 
       minute: '2-digit',
       hour12: true 
@@ -197,7 +208,7 @@ function TasksPlusEvents() {
   };
 
   const handleEventStatusChange = async(eventId, newStatus) => {
-    console.log('eventId:', eventId, 'newStatus:', newStatus);
+    //console.log('eventId:', eventId, 'newStatus:', newStatus);
     try {
       const response = await fetch(`http://localhost:4000/events/${eventId}/status`, {
         method: 'PATCH',

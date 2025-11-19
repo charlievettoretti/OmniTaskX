@@ -1,0 +1,175 @@
+.weeklyViewContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    height: 100%;
+  }
+  
+  .weekHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .weekLabel {
+    font-weight: 600;
+  }
+  
+  .navButton {
+    border: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  
+  /* Column headers */
+  .headerRow {
+    display: grid;
+    grid-template-columns: 70px repeat(7, 1fr);
+    align-items: stretch;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .timeColumnHeader {
+    border-right: 1px solid #e5e7eb;
+  }
+  
+  .dayHeader {
+    text-align: center;
+    padding-bottom: 0.25rem;
+    border-right: 1px solid #e5e7eb;
+  }
+  
+  .dayHeader:last-child {
+    border-right: none;
+  }
+  
+  .dayHeaderLabel {
+    font-weight: 600;
+  }
+  
+  .dayHeaderDate {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  
+  /* Body */
+  .scheduleBody {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    height: calc(100vh - 200px); /* adjust as needed */
+    overflow: hidden;
+  }
+  
+  /* Time labels */
+  .timeColumn {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #e5e7eb;
+  }
+  
+  .timeSlotLabel {
+    flex: 1;
+    font-size: 0.75rem;
+    color: #6b7280;
+    padding-right: 0.25rem;
+    text-align: right;
+  }
+  
+  /* Days grid */
+  .daysContainer {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    overflow-y: auto;
+  }
+  
+  .dayColumn {
+    border-right: 1px solid #f3f4f6;
+    position: relative;
+  }
+  
+  .dayColumn:last-child {
+    border-right: none;
+  }
+  
+  .dayColumnGrid {
+    display: grid;
+    position: relative;
+  }
+  
+  /* Background time cells */
+  .timeCell {
+    border-bottom: 1px solid #f3f4f6;
+  }
+  
+  /* Blocks */
+  .taskBlock,
+  .eventBlock {
+    position: relative;
+    margin: 2px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    color: #111827;
+    font-size: 0.7rem;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .taskBlock {
+    opacity: 0.95;
+  }
+  
+  .eventBlock {
+    opacity: 0.95;
+  }
+  
+  .blockTitle {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .blockMeta {
+    font-size: 0.65rem;
+    opacity: 0.8;
+  }
+  
+  /* Modal (copied style pattern from your other modals) */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+  }
+  
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modalContent {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-height: 80vh;
+    overflow-y: auto;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    min-width: 320px;
+    max-width: 480px;
+  }
+  
+  .closeModal {
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    float: right;
+    cursor: pointer;
+  }
+  

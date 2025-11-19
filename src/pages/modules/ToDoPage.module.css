@@ -101,6 +101,18 @@
     margin-top: 1.5rem;
 }
 
+.generalSection {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+}
+
+.generalContent {
+    margin-top: 1.5rem;
+}
+
 /* Categories Section */
 .categoriesSection {
     background: white;
