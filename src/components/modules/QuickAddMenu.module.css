@@ -1,0 +1,53 @@
+.quickAddContainer {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+.trigger {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: #111827;
+  }
+
+span {
+    font-size: 1rem;
+}
+
+.quickAddMenu {
+    /*height: 100%;
+    width: 100%;*/
+    position: absolute;
+    left: 100%;                /* attach to the right edge of the navbar */
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 8px;
+    background: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+    padding: 0.5rem 0;
+    min-width: 180px;
+    z-index: 9999;
+  }
+
+.menuButton {
+  width: 100%;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+}
+
+.menuButton:hover {
+    background: #f3f4f6;
+  }
