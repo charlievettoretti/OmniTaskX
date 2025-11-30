@@ -10,9 +10,40 @@
 .group {
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    /*width: 100vw;*/
+    background-color: #F9FAFB;
+    height: 100vh;
+    margin-left: 260px;
 }
 
+.groupHeader {
+    margin: 0;
+    display: flex;
+    top: 0;
+    /*width: 100vw;*/
+    /*width: 100%;*/
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border-bottom: 1px solid #E9ECEF;
+}
+
+.groupHeader h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.groupButtons {
+    /*gap: 0.75rem;*/
+    display: flex;
+    gap: 0.75rem;
+}
+/*
 .groupButtons {
     display: flex;
     top: 0;
@@ -21,11 +52,12 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
-    padding: 10px;
+    padding: 1.5rem 2rem;
     border-radius: 10px;
-    background-color: #f0f0f0;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-}
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #e9ecef;
+}*/
 
 .crownIcon {
     width: 1rem;
@@ -110,11 +142,12 @@
 
 /* Group Details Styles */
 .groupDetailsContainer {
-    padding: 2rem;
-    max-width: 1200px;
+    padding-top: 2rem;
+    /*max-width: 1200px;*/
     margin: 0 auto;
     width: 100%;
-    padding-left: 260px;
+    margin-right: 3.5rem;
+    /*width: 100%;*/
 }
 
 .groupDetailsHeader {

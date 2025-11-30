@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { renameGroup } from './groupSlice';
 import styles from './modules/GroupNameEditor.module.css';
+import EditIcon from '../../components/icons/EditIcon.svg';
 
 function GroupNameEditor({ groupId, currentName, isOwner, onNameChanged }) {
     const dispatch = useDispatch();
@@ -93,7 +94,7 @@ function GroupNameEditor({ groupId, currentName, isOwner, onNameChanged }) {
                 className={styles.editButton}
                 title="Edit group name"
             >
-                ✏️
+                <img src={EditIcon} alt='Edit Group Name' />
             </button>
         </div>
     );

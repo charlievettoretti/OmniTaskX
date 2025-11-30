@@ -1,12 +1,40 @@
+/*.eventForm > * + * {
+    margin-top: 1rem;
+    text-align: left;
+}*/
+.eventForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.eventDescInput {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 100px;
+}
+
 .addButton {
     display: block;
+    width: 100%;
     margin: 1rem auto 0 auto; /* Top | Horizontal | Bottom */
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
     padding: 0.5rem 1rem;
     font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.eventForm > * + * {
-    margin-top: 1rem;
-    text-align: left;
+.addButton:hover {
+    background-color: #45a049;
 }
+
+

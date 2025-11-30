@@ -6,17 +6,18 @@ import styles from './modules/EditTaskModal.module.css';
 
 
 const formatDateForInput = (dateStr) => {
-    const date = new Date(dateStr);
-    const offset = date.getTimezoneOffset() * 60000;
-    return new Date(date.getTime() - offset).toISOString().slice(0, 16);
-  };
-  /*
-  const formatDateForInput = (dateStr) => {
     if (!dateStr) return '';
-    // If it's already in the format "YYYY-MM-DD HH:MM:SS", convert to "YYYY-MM-DDTHH:MM"
-    const cleanStr = dateStr.replace(' ', 'T').slice(0, 16);
-    return cleanStr;
-};*/
+  
+    const d = new Date(dateStr);
+  
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
 
 function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
     const [taskName, setTaskName] = useState(task.name);
     const [taskCategoryId, setTaskCategoryId] = useState(task.category_id);
     const [description, setDescription] = useState(task.description);
-    const [dateTime, setDateTime] = useState(task.dateTime);
+    const [dateTime, setDateTime] = useState(formatDateForInput(task.dateTime));
     const [urgency, setUrgency] = useState(task.urgency);
 
     const [estimatedDurationMinutes, setEstimatedDurationMinutes] = useState(task.estimated_duration_minutes);
@@ -42,7 +43,7 @@ function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
         setTaskName(task.name);
         setTaskCategoryId(task.category_id);
         setDescription(task.description);
-        setDateTime(task.dateTime);
+        setDateTime(formatDateForInput(task.dateTime));
         setUrgency(task.urgency);
         setEstimatedDurationMinutes(task.estimated_duration_minutes);
         setEnergyLevel(task.energy_level);
@@ -58,12 +59,6 @@ function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
         setIsSubmitting(true);
         try {
             console.log('Submitting task update...');
-
-            // ADDED HERE
-            /*
-            const formattedDateTime = dateTime.includes('T') 
-                ? dateTime.replace('T', ' ') + ':00' 
-                : dateTime;*/
 
             const response = await fetch(`http://localhost:4000/tasks/${task.id}`, {
                 method: 'PUT',
@@ -152,7 +147,7 @@ function EditTaskModal({ task, toggleEditTaskModal, onTaskUpdated }) {
                 <label htmlFor="taskDate">Due Date:</label>
                 <input
                     id='taskDate'
-                    value={formatDateForInput(dateTime)}
+                    value={dateTime}
                     onChange={(e) => setDateTime(e.target.value)}
                     type='datetime-local'
                 />

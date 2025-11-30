@@ -18,6 +18,8 @@ import AiPage from "./pages/AiPage";
 import Settings from './pages/SettingsPage';
 import RequireAuth from './RequireAuth';
 
+import WeeklyPage from './pages/WeeklyPage';
+
 
 
 const router = createBrowserRouter( createRoutesFromElements(
@@ -32,6 +34,7 @@ const router = createBrowserRouter( createRoutesFromElements(
     <Route path='/group' element={ <GroupPage /> } />
     <Route path='/to-do' element={ <ToDoPage /> } />
     <Route path='/calendar' element={ <CalendarPage /> } />
+    <Route path='/weekly' element={ <WeeklyPage /> } />
     <Route path='/ai' element= { <AiPage /> } />
     <Route path='/settings' element = { <Settings /> } />
   </Route>

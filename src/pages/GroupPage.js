@@ -89,9 +89,12 @@ function GroupPage() {
     return (
         <div className={styles.group}>
 
-            <div className={styles.groupButtons}>
-                <button onClick={() => setCreateGroupModal(true)} className={styles.createGroupButton}>Create Group</button>
-                <button onClick={() => setJoinGroupModal(true)} className={styles.joinGroupButton}>Join Group</button>
+            <div className={styles.groupHeader}>
+                <h1>Group Management</h1>
+                <div className={styles.groupButtons}>
+                    <button onClick={() => setCreateGroupModal(true)} className={styles.createGroupButton}>Create Group</button>
+                    <button onClick={() => setJoinGroupModal(true)} className={styles.joinGroupButton}>Join Group</button>
+                </div>
             </div>
             { createGroupModal && (
                 <CreateGroupModal open={CreateGroupModal} onClose={() => setCreateGroupModal(false)} />

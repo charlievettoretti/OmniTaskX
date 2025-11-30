@@ -4,7 +4,7 @@ import { addCatagory } from './catagorySlice';
 
 import styles from './modules/AddCatagoryModal.module.css';
 
-function AddCatagoryModal({ toggleCatagoryModal }) {
+function AddCatagoryModal({ toggleCategoryModal }) {
 
     const dispatch = useDispatch();
     const colorOptions = [
@@ -66,7 +66,7 @@ function AddCatagoryModal({ toggleCatagoryModal }) {
                 catagoryName: data.name,
                 catagoryColor: data.color
             }));
-            toggleCatagoryModal();
+            toggleCategoryModal();
             setCatagoryName('');
             setCatagoryColor('');
         } catch (err) {

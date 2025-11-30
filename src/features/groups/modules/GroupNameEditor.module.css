@@ -97,3 +97,8 @@
     background: #6c757d;
     cursor: not-allowed;
 } 
+
+img {
+    height: 16px;
+    width: 16px;
+}

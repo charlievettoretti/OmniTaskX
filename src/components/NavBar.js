@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './modules/NavBar.module.css';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
@@ -10,10 +10,17 @@ import GroupIcon from './icons/GroupIcon.svg';
 import CalendarIcon from './icons/CalendarIcon.svg';
 import AIIcon from './icons/AIIcon.svg';
 import LogoutIcon from './icons/logout.svg';
+import PlusSquareIcon from './icons/Plus-Square.svg';
+import WeeklyIcon from './icons/WeeklyIcon.svg';
 
 import logo from './logos/black_lettering.svg';
 
+// FOR QUICK ADD MENU
+import QuickAddMenu from './QuickAddMenu';
 
+import AddTaskModal from '../features/tasks/AddTaskModal';
+import AddEventModal from '../features/events/AddEventModal';
+import AddCatagoryModal from '../features/catagories/AddCatagoryModal';
 
 function NavBar() {
     const navigate = useNavigate();
@@ -30,7 +37,31 @@ function NavBar() {
             console.error('Logout Failed: ', err);
         }
     };
-    const navBarList = ['Dashboard', 'Profile', 'Group', 'To-Do', 'Calendar', 'AI', 'Settings'];
+
+    const [addTaskModal, setAddTaskModal] = useState(false);
+    const [addEventModal, setAddEventModal] = useState(false);
+    const [addCategoryModal, setAddCategoryModal] = useState(false);
+
+    const [quickAddOpen, setQuickAddOpen] = useState(false);
+    const quickAddTimeoutRef = useRef(null);
+
+    if (addTaskModal || addEventModal || addCategoryModal) {
+        document.body.classList.add('activeModal');
+    } else {
+        document.body.classList.remove('activeModal');
+    }
+
+    const toggleTaskModal = () => {
+        setAddTaskModal(!addTaskModal);
+    }
+    const toggleEventModal = () => {
+        setAddEventModal(!addEventModal);
+    }
+    const toggleCategoryModal = () => {
+        setAddCategoryModal(!addCategoryModal);
+    }
+
+    const navBarList = ['Dashboard', 'Profile', 'Group', 'To-Do', 'Calendar', 'Weekly', 'AI', 'Settings'];
 
     const imgSrc = {
         "Dashboard": DashboardIcon,
@@ -38,6 +69,7 @@ function NavBar() {
         "Group": GroupIcon,
         "To-Do": ToDoIcon,
         "Calendar": CalendarIcon,
+        "Weekly": WeeklyIcon,
         "AI": AIIcon,
         "Settings": SettingsIcon
     };
@@ -88,6 +120,36 @@ function NavBar() {
                     </li>
                 </div>
                 </NavLink>*/}
+
+                <ul className={styles.navListBottom}>
+                    <li className={styles.navItem}
+                        onMouseEnter={() => {
+                            if (quickAddTimeoutRef.current) {
+                                clearTimeout(quickAddTimeoutRef.current);
+                                quickAddTimeoutRef.current = null;
+                            }
+                            setQuickAddOpen(true);
+                        }}
+                        onMouseLeave={() => {
+                            quickAddTimeoutRef.current = setTimeout(() => {
+                                setQuickAddOpen(false);
+                                quickAddTimeoutRef.current = null;
+                            }, 200);
+                        }}
+                    >
+                        <div className={styles.navContent}>
+                            <img src={PlusSquareIcon} className={styles.icons} alt="Quick Add" />
+                            <QuickAddMenu
+                                open={quickAddOpen}
+                                onAddTask={() => setAddTaskModal(true)}
+                                onAddEvent={() => setAddEventModal(true)}
+                                onAddCategory={() => setAddCategoryModal(true)}
+                            />
+                        </div>
+                    </li>
+                </ul>
+      
+
                 <button className={styles.navItem} onClick={handleLogout}>
                     <div className={styles.navList}>
                         <div className={styles.navContent}>
@@ -96,8 +158,72 @@ function NavBar() {
                         </div>
                     </div>
                 </button>
+
+
+                {/*
+                <ul className={styles.navListBottom}>
+                    <li className={styles.navItem}>
+                    <div className={styles.navContent}>
+                        <img src={PlusSquareIcon} className={styles.icons} alt="Quick Add" />
+                        <QuickAddMenu
+                        onAddTask={() => setAddTaskModal(true)}
+                        onAddEvent={() => setAddEventModal(true)}
+                        onAddCategory={() => setAddCategoryModal(true)}
+                        />
+                    </div>
+                    </li>
+
+                    <li className={styles.navItem} onClick={handleLogout}>
+                    <div className={styles.navContent}>
+                        <img src={LogoutIcon} className={styles.icons} alt="Logout" />
+                        <span className={styles.Logout}>Logout</span>
+                    </div>
+                    </li>
+                </ul>*/}
             </div>
             <Outlet />
+            {addTaskModal && (
+                <div className={styles.modal}>
+                    <div className={styles.overlay} onClick={toggleTaskModal}></div>
+                        <div className={styles.modalContent}>
+                            <button onClick={toggleTaskModal} className={styles.closeModal}>
+                                X
+                            </button>
+                            <AddTaskModal
+                                toggleTaskModal={toggleTaskModal}
+                                //onEventUpdated={handleEventAdded}
+                            />
+                        </div>
+                    </div>
+            )}
+            {addEventModal && (
+                <div className={styles.modal}>
+                    <div className={styles.overlay} onClick={toggleEventModal}></div>
+                        <div className={styles.modalContent}>
+                            <button onClick={toggleEventModal} className={styles.closeModal}>
+                                X
+                            </button>
+                            <AddEventModal
+                                toggleEventModal={toggleEventModal}
+                                //onEventUpdated={handleEventAdded}
+                            />
+                        </div>
+                    </div>
+            )}
+            {addCategoryModal && (
+                <div className={styles.modal}>
+                    <div className={styles.overlay} onClick={toggleCategoryModal}></div>
+                        <div className={styles.modalContent}>
+                            <button onClick={toggleCategoryModal} className={styles.closeModal}>
+                                X
+                            </button>
+                            <AddCatagoryModal
+                                toggleCategoryModal={toggleCategoryModal}
+                                //onEventUpdated={handleEventAdded}
+                            />
+                        </div>
+                    </div>
+            )}
         </div>
 
     );

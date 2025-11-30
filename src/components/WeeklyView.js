@@ -11,10 +11,16 @@ import styles from './modules/WeeklyView.module.css';
 
 const DAY_START_HOUR = 7;   // 7 AM
 const DAY_END_HOUR = 21;    // 9 PM
-const SLOT_MINUTES = 30;
-const TOTAL_SLOTS = ((DAY_END_HOUR - DAY_START_HOUR) * 60) / SLOT_MINUTES;
+const SLOT_MINUTES = 30;    // vertical resolution
+const TOTAL_MINUTES = (DAY_END_HOUR - DAY_START_HOUR) * 60;
+const SLOT_COUNT = TOTAL_MINUTES / SLOT_MINUTES;
 
 const dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+const isSameDay = (d1, d2) =>
+  d1.getFullYear() === d2.getFullYear() &&
+  d1.getMonth() === d2.getMonth() &&
+  d1.getDate() === d2.getDate();
 
 // Get Monday of the week for a given date
 function getStartOfWeek(date) {
@@ -40,36 +46,12 @@ function isWithinWeek(dateStr, weekStart) {
   return date >= start && date < end;
 }
 
-// Convert a datetime string + duration into grid row indices
-function getRowRange(dateStr, durationMinutes) {
-  if (!dateStr) return null;
-
-  const date = new Date(dateStr);
-  const startMinutes = date.getHours() * 60 + date.getMinutes();
-  const dayStartMinutes = DAY_START_HOUR * 60;
-  const dayEndMinutes = DAY_END_HOUR * 60;
-
-  // Completely outside the visible range
-  if (startMinutes >= dayEndMinutes) return null;
-
-  let fromStart = startMinutes - dayStartMinutes;
-  if (fromStart < 0) fromStart = 0; // clamp up
-
-  const slotIndex = Math.floor(fromStart / SLOT_MINUTES) + 1; // grid rows are 1-based
-  const slotsNeeded = Math.max(1, Math.ceil((durationMinutes || 30) / SLOT_MINUTES));
-
-  let rowStart = slotIndex;
-  let rowEnd = rowStart + slotsNeeded;
-
-  // Clamp end to within the grid
-  if (rowEnd > TOTAL_SLOTS + 1) {
-    rowEnd = TOTAL_SLOTS + 1;
-  }
-
-  return { rowStart, rowEnd };
+function getMinutesFromStart(dateStr) {
+  const d = new Date(dateStr);
+  const mins = d.getHours() * 60 + d.getMinutes() - DAY_START_HOUR * 60;
+  return mins;
 }
 
-// Minutes diff helper
 function diffMinutes(startStr, endStr) {
   const start = new Date(startStr);
   const end = new Date(endStr);
@@ -77,6 +59,50 @@ function diffMinutes(startStr, endStr) {
   return Math.max(0, Math.round(diffMs / (60 * 1000)));
 }
 
+// Check if two intervals overlap
+function intervalsOverlap(aStart, aEnd, bStart, bEnd) {
+  return aStart < bEnd && bStart < aEnd;
+}
+
+// Assign lanes to blocks so overlaps are side by side
+function assignLanes(blocks) {
+  // Sort by start time, then by end time
+  blocks.sort((a, b) => {
+    if (a.startMin !== b.startMin) return a.startMin - b.startMin;
+    return a.endMin - b.endMin;
+  });
+
+  // First pass: assign lane index
+  const active = [];
+  for (const block of blocks) {
+    // remove blocks that ended
+    for (let i = active.length - 1; i >= 0; i--) {
+      if (active[i].endMin <= block.startMin) {
+        active.splice(i, 1);
+      }
+    }
+
+    // find smallest free lane
+    const used = new Set(active.map((b) => b.lane));
+    let lane = 0;
+    while (used.has(lane)) lane++;
+    block.lane = lane;
+    active.push(block);
+  }
+
+  // Second pass: for each block, find max lane within its overlapping cluster
+  for (const block of blocks) {
+    let maxLane = block.lane;
+    for (const other of blocks) {
+      if (intervalsOverlap(block.startMin, block.endMin, other.startMin, other.endMin)) {
+        if (other.lane > maxLane) maxLane = other.lane;
+      }
+    }
+    block.laneCount = maxLane + 1; // lanes are 0-based
+  }
+}
+
+// WEEKLY VIEW
 function WeeklyView() {
   const dispatch = useDispatch();
   const tasks = useSelector(selectTask);
@@ -87,6 +113,7 @@ function WeeklyView() {
   const [editingTask, setEditingTask] = useState(null);
   const [editEventModal, setEditEventModal] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
+  const [now, setNow] = useState(new Date());
 
   useEffect(() => {
     dispatch(fetchTasks());
@@ -94,32 +121,37 @@ function WeeklyView() {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+
   const weekEnd = useMemo(() => {
     const d = new Date(weekStart);
     d.setDate(d.getDate() + 6);
     return d;
   }, [weekStart]);
 
+  // Build time slots = one per 30 minutes
   const timeSlots = useMemo(() => {
     const slots = [];
-    for (let hour = DAY_START_HOUR; hour < DAY_END_HOUR; hour++) {
+    for (let m = 0; m < TOTAL_MINUTES; m += SLOT_MINUTES) {
+      const absoluteMins = DAY_START_HOUR * 60 + m;
+      const hour = Math.floor(absoluteMins / 60);
+      const minutes = absoluteMins % 60;
       const ampmHour = ((hour + 11) % 12) + 1;
       const suffix = hour < 12 ? 'AM' : 'PM';
-      slots.push(`${ampmHour}:00 ${suffix}`);
-      // if you want 30-min labels, add another here
-      // slots.push(`${ampmHour}:30 ${suffix}`);
+      const label = minutes === 0 ? `${ampmHour}:00 ${suffix}` : '';
+      slots.push(label);
     }
     return slots;
   }, []);
 
-  // Map tasks & events into a structure indexed by dayIndex (0-6)
-  const itemsByDay = useMemo(() => {
-    const result = Array.from({ length: 7 }, () => ({
-      tasks: [],
-      events: [],
-    }));
+  // Build blocks for each day (tasks + events), with positions & lanes
+  const blocksByDay = useMemo(() => {
+    const result = Array.from({ length: 7 }, () => []);
 
-    // Scheduled tasks: those with a concrete dateTime
+    // Tasks
     tasks.forEach((task) => {
       if (!task.dateTime) return;
       if (!isWithinWeek(task.dateTime, weekStart)) return;
@@ -130,14 +162,16 @@ function WeeklyView() {
       );
       if (dayDiff < 0 || dayDiff > 6) return;
 
+      const startMin = getMinutesFromStart(task.dateTime);
       const duration = task.estimated_duration_minutes || 30;
-      const rowRange = getRowRange(task.dateTime, duration);
-      if (!rowRange) return;
+      const endMin = startMin + duration;
 
-      result[dayDiff].tasks.push({
-        ...task,
-        rowStart: rowRange.rowStart,
-        rowEnd: rowRange.rowEnd,
+      result[dayDiff].push({
+        id: `task-${task.id}`,
+        kind: 'task',
+        source: task,
+        startMin,
+        endMin,
       });
     });
 
@@ -152,24 +186,45 @@ function WeeklyView() {
       );
       if (dayDiff < 0 || dayDiff > 6) return;
 
+      const startMin = getMinutesFromStart(event.startTime);
       const duration = event.endTime
         ? diffMinutes(event.startTime, event.endTime)
         : 30;
+      const endMin = startMin + duration;
 
-      const rowRange = getRowRange(event.startTime, duration);
-      if (!rowRange) return;
-
-      result[dayDiff].events.push({
-        ...event,
-        rowStart: rowRange.rowStart,
-        rowEnd: rowRange.rowEnd,
+      result[dayDiff].push({
+        id: `event-${event.id}`,
+        kind: 'event',
+        source: event,
+        startMin,
+        endMin,
       });
     });
 
-    // Sort items in each day by start row
-    result.forEach((day) => {
-      day.tasks.sort((a, b) => a.rowStart - b.rowStart);
-      day.events.sort((a, b) => a.rowStart - b.rowStart);
+    // For each day, assign lanes and compute % positions
+    result.forEach((blocks) => {
+      if (blocks.length === 0) return;
+
+      // clamp mins into visible range and ensure a minimum height
+      blocks.forEach((b) => {
+        b.clampedStart = Math.max(0, Math.min(TOTAL_MINUTES, b.startMin));
+        b.clampedEnd = Math.max(0, Math.min(TOTAL_MINUTES, b.endMin));
+
+        if (b.clampedEnd <= b.clampedStart) {
+          b.clampedEnd = b.clampedStart + 15; // min 15 min
+        }
+      });
+
+      assignLanes(blocks);
+
+      blocks.forEach((b) => {
+        const top = (b.clampedStart / TOTAL_MINUTES) * 100;
+        const height =
+          ((b.clampedEnd - b.clampedStart) / TOTAL_MINUTES) * 100;
+
+        b.topPercent = top;
+        b.heightPercent = height;
+      });
     });
 
     return result;
@@ -223,6 +278,14 @@ function WeeklyView() {
     document.body.classList.remove('activeModal');
   }
 
+  /*
+  // TESTING THE 'Now' Line
+  useEffect(() => {
+    const fakeNow = new Date();
+    fakeNow.setHours(12, 25, 0, 0);
+    setNow(fakeNow);
+  }, []);*/
+
   return (
     <div className={styles.weeklyViewContainer}>
       {/* Header / navigation */}
@@ -266,10 +329,10 @@ function WeeklyView() {
 
       {/* Body grid */}
       <div className={styles.scheduleBody}>
-        {/* Time labels column */}
+        {/* Time column: one row per 30-minute slot */}
         <div className={styles.timeColumn}>
-          {timeSlots.map((label) => (
-            <div key={label} className={styles.timeSlotLabel}>
+          {timeSlots.map((label, idx) => (
+            <div key={idx} className={styles.timeSlotLabel}>
               {label}
             </div>
           ))}
@@ -277,63 +340,94 @@ function WeeklyView() {
 
         {/* 7 day columns */}
         <div className={styles.daysContainer}>
-          {itemsByDay.map((day, dayIndex) => (
-            <div key={dayIndex} className={styles.dayColumn}>
-              <div
-                className={styles.dayColumnGrid}
-                style={{ gridTemplateRows: `repeat(${TOTAL_SLOTS}, 1fr)` }}
-              >
-                {/* Background time cells */}
-                {Array.from({ length: TOTAL_SLOTS }).map((_, idx) => (
-                  <div key={idx} className={styles.timeCell} />
-                ))}
+          {blocksByDay.map((blocks, dayIndex) => {
+            const dayDate = new Date(weekStart);
+            dayDate.setDate(weekStart.getDate() + dayIndex);
+            const isToday = isSameDay(dayDate, now);
 
-                {/* Tasks */}
-                {day.tasks.map((task) => (
-                  <div
-                    key={`task-${task.id}`}
-                    className={styles.taskBlock}
-                    style={{
-                      gridRowStart: task.rowStart,
-                      gridRowEnd: task.rowEnd,
-                      backgroundColor: task.category?.color || '#4B9CE2',
-                    }}
-                    onClick={() => openEditTaskModal(task)}
-                    title={task.description || task.name}
-                  >
-                    <div className={styles.blockTitle}>{task.name}</div>
-                    {task.category?.name && (
-                      <div className={styles.blockMeta}>
-                        {task.category.name}
-                      </div>
-                    )}
-                  </div>
-                ))}
+            const nowMinutesFromStart =
+              now.getHours() * 60 + now.getMinutes() - DAY_START_HOUR * 60;
 
-                {/* Events */}
-                {day.events.map((event) => (
-                  <div
-                    key={`event-${event.id}`}
-                    className={styles.eventBlock}
-                    style={{
-                      gridRowStart: event.rowStart,
-                      gridRowEnd: event.rowEnd,
-                      backgroundColor: event.category?.color || '#34D399',
-                    }}
-                    onClick={() => openEditEventModal(event)}
-                    title={event.description || event.name}
-                  >
-                    <div className={styles.blockTitle}>{event.name}</div>
-                    {event.category?.name && (
-                      <div className={styles.blockMeta}>
-                        {event.category.name}
-                      </div>
-                    )}
+            let nowTopPercent = null;
+            if (isToday && nowMinutesFromStart >= 0 && nowMinutesFromStart <= TOTAL_MINUTES) {
+              nowTopPercent = (nowMinutesFromStart / TOTAL_MINUTES) * 100;
+            }
+
+            return (
+              <div key={dayIndex} className={styles.dayColumn}>
+                <div className={styles.dayColumnInner}>
+                  {/* Background rows (lines) */}
+                  <div className={styles.slotBackground}>
+                    {Array.from({ length: SLOT_COUNT }).map((_, idx) => (
+                      <div
+                        key={idx}
+                        className={`${styles.slotRow} ${
+                          idx % 2 === 0 ? styles.hourRow : ''
+                        }`}
+                      />
+                    ))}
                   </div>
-                ))}
+
+                  {/* Foreground: blocks + now line */}
+                  <div className={styles.blocksLayer}>
+                    {nowTopPercent !== null && (
+                      <div
+                        className={styles.nowLine}
+                        style={{ top: `${nowTopPercent}%` }}
+                      />
+                    )}
+
+                    {blocks.map((block) => {
+                      const { kind, source } = block;
+                      const isTask = kind === 'task';
+                      const category = source.category;
+
+                      // Category background in block
+                      const categoryColor = 
+                        category?.color ?? 
+                        source.categoryColor ?? 
+                        source.category_color ?? 
+                        (isTask ? '#4B9CE2' : '#34D399'); // defaults to blue or green
+                    
+                      const categoryName = category?.name ?? source.categoryName ?? null;
+
+                      const widthPercent = 100 / (block.laneCount || 1);
+                      const leftPercent = widthPercent * (block.lane || 0);
+
+                      return (
+                        <div
+                          key={block.id}
+                          className={
+                            isTask ? styles.taskBlock : styles.eventBlock
+                          }
+                          style={{
+                            top: `${block.topPercent}%`,
+                            height: `${block.heightPercent}%`,
+                            left: `${leftPercent}%`,
+                            width: `${widthPercent}%`,
+                            backgroundColor: categoryColor,
+                          }}
+                          onClick={() =>
+                            isTask
+                              ? openEditTaskModal(source)
+                              : openEditEventModal(source)
+                          }
+                          title={source.description || source.name}
+                        >
+                          <div className={styles.blockTitle}>{source.name}</div>
+                          {category?.name && (
+                            <div className={styles.blockMeta}>
+                              {categoryName}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

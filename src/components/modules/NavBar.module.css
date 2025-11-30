@@ -1,6 +1,7 @@
 
 .miniLogo {
     width: 260px;
+    height: auto;
 }
 
 .navContainer {
@@ -20,6 +21,7 @@
     /*box-shadow: 5px 5px 5px black;*/  /* Shadow on nav bar */
     border-style: solid;
     border-width: 0.2em;
+    z-index: 2000;
 }
 
 .navList {
@@ -28,12 +30,27 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    /*justify-content: space-evenly*/;
+    /*justify-content: space-evenly;*/
     padding: 0;
     margin: 0;
     align-items: stretch;
     justify-items: center;
 }
+
+
+.navListBottom {
+    list-style: none;
+    display: flex;
+    margin-bottom: 0.5em;
+    /*margin-top: auto;*/
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    justify-content: flex-end;
+    justify-items: center;
+  }
 
 .navContent {
     display: flex;
@@ -55,6 +72,7 @@
 .navItem:hover {
     background-color: #D5DBE4;
     border-color: black;
+    cursor: pointer;
 
 }
 
@@ -91,6 +109,13 @@ span {
     width: 32px;
     margin-left: 10px;
 }
+
+.navMenuContent {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
 
 .Logout {
     font-size: 1rem;
@@ -130,3 +155,49 @@ span {
     background-color: #AEB6BF;
     border-color: black;
 }
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+  }
+  /*
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+  }*/
+  
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modalContent {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-height: 90vh;
+    width: 90%;
+    overflow-y: auto;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    min-width: 320px;
+    max-width: 480px;
+  }
+  
+  .closeModal {
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    float: right;
+    cursor: pointer;
+  }
+
+  .closeModal:hover {
+    color: red;
+  }

@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import styles from './modules/AddTaskModal.module.css';
 /*import ModalAddTaskButton from './buttons/ModalAddTaskButton';*/
 import { useDispatch, useSelector } from 'react-redux';
-import { addTask } from './taskSlice';
+//import { addTask } from './taskSlice';
 import { selectCatagory } from '../catagories/catagorySlice';
 import { fetchTasks } from './taskSlice';
 
-function AddTaskModal({ toggleModal }) {
+function AddTaskModal({ toggleTaskModal }) {
     const dispatch = useDispatch();
     const catagories = useSelector(selectCatagory);
 
-    const [taskId, setTaskId] = useState('');
+    //const [taskId, setTaskId] = useState('');
     const [taskName, setTaskName] = useState('');
-    const [taskCatagory, setTaskCatagory] = useState('');
+    //const [taskCatagory, setTaskCatagory] = useState('');
     const [description, setDescription] = useState('');
     const [dateTime, setDateTime] = useState('');
     const [urgency, setUrgency] = useState(3);
@@ -85,7 +85,7 @@ function AddTaskModal({ toggleModal }) {
             }));*/
             dispatch(fetchTasks());
 
-            toggleModal();
+            toggleTaskModal();
             setTaskName('');
             /*setTaskCatagory('');*/
             setDescription('');

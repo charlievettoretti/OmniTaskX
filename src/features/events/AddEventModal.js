@@ -111,6 +111,7 @@ function AddEventModal({ toggleEventModal }) {
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder='Enter event description'
                     rows="4"
+                    className={styles.eventDescInput}
                 />
                 <br />
             </div>
