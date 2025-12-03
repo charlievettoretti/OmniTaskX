@@ -3,6 +3,26 @@ body.activeModal {
     overflow-y: hidden;
 }
 
+.addEventButton {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.addEventButton {
+    background: #28a745;
+    color: white;
+}
+
+.addEventButton:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
 .modal, .overlay {
     width: 100vw;
     height: 100vh;
@@ -14,7 +34,7 @@ body.activeModal {
 }
 
 .overlay {
-    background: rgba(49, 49, 49, 0.8)
+    background: rgba(0, 0, 0, 0.5)
 }
 
 /*.openModal {
@@ -33,21 +53,26 @@ body.activeModal {
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 90%;
     transform: translate(-50%, -50%);
-    line-height: 1.4;
-    background: #282c34;
-    padding: 14px 28px;
-    border-radius: 3px;
-    max-width: 600px;
-    min-width: 300px;
+    /*line-height: 1.4;*/
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    max-width: 480px;
+    min-width: 320px;
     border-color: white;
     border-style: solid;
 }
 
 .closeModal {
-    color: blue;
-}
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    float: right;
+    cursor: pointer;
+  }
 
 .closeModal:hover {
-    cursor: pointer;
+    color: red;
 }

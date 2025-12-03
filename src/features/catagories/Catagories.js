@@ -37,7 +37,7 @@ function Catagories() {
                     </div>
                 </div>
             }
-            <Catagory />
+            {/*<Catagory />*/}
         </div>
     )
 }

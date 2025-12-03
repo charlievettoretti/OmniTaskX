@@ -19,7 +19,7 @@ function Events() {
 
     return (
         <div>
-            <button onClick={toggleEventModal}>Add Event</button>
+            <button className={styles.addEventButton} onClick={toggleEventModal}>Add Event</button>
 
             {modal && 
                 <div className={styles.modal}>
@@ -32,7 +32,7 @@ function Events() {
                     </div>
                 </div>
             }
-            <Event />
+            {/*<Event />*/}
         </div>
     );
 }

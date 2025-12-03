@@ -13,9 +13,9 @@ function Catagory() {
 
     const [editCatagoryModal, setEditCatagoryModal] = useState(false);
 
-    const toggleEditCatagoryModal = () => {
+    /*const toggleEditCatagoryModal = () => {
         setEditCatagoryModal(!editCatagoryModal);
-    };
+    };*/
 
     const [editingCatagory, setEditingCatagory] = useState(null);
 
@@ -42,7 +42,7 @@ function Catagory() {
 
     return (
         <div className={styles.catagoryAll}>
-            <h2 className={styles.catagoryTitle}>Categories</h2>
+            {/*<h2 className={styles.catagoryTitle}>Categories</h2>*/}
             <ul className={styles.catagoryList}>
                 {catagories.map(catagory => (
                     <li className={styles.catagoryItem} key={catagory.id}>

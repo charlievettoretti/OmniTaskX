@@ -73,6 +73,8 @@
 .sectionHeader {
     margin-bottom: 2rem;
     text-align: center;
+    display: flex;
+    justify-content: space-between;
 }
 
 .sectionHeader h2 {

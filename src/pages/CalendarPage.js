@@ -5,7 +5,9 @@ import TasksPlusEvents from '../components/TasksPlusEvents';
 function CalendarPage() {
     return (
         <div className={styles.calendar}>
-            <h1>Calendar</h1>
+            <div className={styles.calendarHeader}>
+                <h1>Calendar</h1>
+            </div>
             <TasksPlusEvents />
         </div>
     );

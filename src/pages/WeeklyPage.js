@@ -5,6 +5,9 @@ import WeeklyView from '../components/WeeklyView';
 function WeeklyPage() {
     return (
         <div className={styles.weekly}>
+            <div className={styles.weeklyHeader}>
+                <h1>Weekly Calendar</h1>
+            </div>
             <WeeklyView />
         </div>
     );

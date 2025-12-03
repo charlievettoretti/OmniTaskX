@@ -1,0 +1,210 @@
+* {
+    box-sizing: border-box;
+}
+
+.landing {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #e2f1ff 0%, #ffffff 50%);
+    color: #0f172a;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  }
+  
+  /* ---------------- HEADER ---------------- */
+  .header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 4rem;
+    position: fixed;
+    transition: background-color 0.5s ease;
+    z-index: 100;
+  }
+
+  .wordLogo {
+    width: 20%;
+    height: auto;
+  }
+
+  .headerScrolled {
+    background-color: white;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .logoMark {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-weight: 700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(0,0,0,0.15);
+  }
+  
+  .logoText {
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  
+  .navLinks {
+    display: flex;
+    gap: 1.5rem;
+  }
+/*
+  .buttons {
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.3s;
+    background-color: #007bff;
+    padding: 0.75rem 1.5rem;
+    
+  }*/
+  .buttons {
+    text-decoration: none;
+    font-size: 17px;
+    padding: 0.5em 2em;
+    border: transparent;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    background: dodgerblue;
+    color: whitesmoke;
+    border-radius: 4px;
+   }
+   
+   .buttons:hover {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(30,144,255,1) 0%, rgba(0,212,255,1) 100%);
+   }
+   
+   .buttons:active {
+    transform: translate(0em, 0.2em);
+   }
+  
+/*
+  .signupBtn {
+    border:1px solid #0f172a;
+    padding:0.45rem 1rem;
+    border-radius:999px;
+  }*/
+/*
+  .createGroupButton, .joinGroupButton {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}*/
+  
+  /* ---------------- HERO ---------------- */
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    gap:3rem;
+    padding:6rem 4rem 2.5rem; /* left / top / bottom */
+  }
+  
+  .textBlock {
+    flex:1 1 350px;
+  }
+  
+  .textBlock h1 {
+    font-size: clamp(3rem, 6vw, 4rem);
+    line-height:1.05;
+    margin-bottom:1rem;
+  }
+  
+  .textBlock p {
+    max-width:32rem;
+    opacity:.85;
+    font-size:1.05rem;
+    margin-bottom:1.5rem;
+  }
+  
+  .ctaRow {
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+  }
+  
+  .primaryBtn {
+    background:#0f172a;
+    color:white;
+    border-radius:999px;
+    padding:0.7rem 1.4rem;
+    font-weight:600;
+  }
+  
+  .secondaryBtn {
+    padding:0.7rem 1.4rem;
+    border-radius:999px;
+    font-weight:600;
+    background:white;
+    border:1px solid #0f172a;
+    cursor:pointer;
+  }
+  
+  /* Card */
+  .heroCard {
+    flex:1 1 350px;
+    background:white;
+    padding:1.5rem;
+    border-radius:1.5rem;
+    box-shadow:0 16px 40px rgba(0,0,0,0.04);
+  }
+  
+  .inputFake {
+    border-radius:1rem;
+    border:1px solid #cbd5e1;
+    padding:1rem 1.2rem;
+    color:#64748b;
+    margin-bottom:1rem;
+  }
+  
+  .pillRow {
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.5rem;
+  }
+  
+  .pill {
+    background:#eef4fa;
+    font-size:0.9rem;
+    padding:0.45rem 0.9rem;
+    border-radius:999px;
+  }
+  
+  /* ---------------- ABOUT ---------------- */
+  .section {
+    padding:3rem 4rem 4rem;
+    max-width:1100px;
+    margin:auto;
+  }
+  
+  .section p {
+    max-width:40rem;
+    opacity:.85;
+  }
+  
+  .features {
+    margin-top:2rem;
+    display:flex;
+    flex-wrap:wrap;
+    gap:1.5rem;
+  }
+  
+  .featureCard {
+    flex:1 1 250px;
+    background:white;
+    padding:1.2rem;
+    border-radius:1rem;
+    box-shadow:0 12px 30px rgba(0,0,0,0.04);
+  }
+  

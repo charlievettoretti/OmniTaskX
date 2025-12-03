@@ -4,6 +4,8 @@ import TaskList from '../features/tasks/TaskList.js';
 import Catagories from '../features/catagories/Catagories.js';
 import Events from '../features/events/Events.js';
 import GeneralTasks from '../features/general/GeneralTasks.js';
+import Catagory from '../features/catagories/Catagory.js';
+import Event from '../features/events/Event.js';
 
 function ToDoPage() {
     const [activeSection, setActiveSection] = useState('tasks'); // 'tasks', 'categories', 'events'
@@ -59,7 +61,6 @@ function ToDoPage() {
                 )}
                 {activeSection === 'general' && (
                     <div className={styles.generalSection}>
-                        <h2>General Task Management</h2>
                         <div className={styles.sectionHeader}>
                             <h2>General Task Management</h2>
                             <div className={styles.generalContent}>
@@ -72,12 +73,15 @@ function ToDoPage() {
                 {activeSection === 'categories' && (
                     <div className={styles.categoriesSection}>
                         <div className={styles.sectionHeader}>
-                            <h2>Category Management</h2>
-                            <p>Organize your tasks with custom categories</p>
+                            <div>
+                                <h2>Category Management</h2>
+                                <p>Organize your tasks with custom categories</p>
+                            </div>
+                            <Catagories />
                         </div>
                         
                         <div className={styles.categoriesContent}>
-                            <Catagories />
+                            <Catagory />
                         </div>
                     </div>
                 )}
@@ -85,12 +89,15 @@ function ToDoPage() {
                 {activeSection === 'events' && (
                     <div className={styles.eventsSection}>
                         <div className={styles.sectionHeader}>
-                            <h2>Event Management</h2>
-                            <p>Schedule and manage your events</p>
+                            <div>
+                                <h2>Event Management</h2>
+                                <p>Schedule and manage your events</p>
+                            </div>
+                            <Events />
                         </div>
                         
                         <div className={styles.eventsContent}>
-                            <Events />
+                            <Event />
                         </div>
                     </div>
                 )}

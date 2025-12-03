@@ -19,16 +19,19 @@ import Settings from './pages/SettingsPage';
 import RequireAuth from './RequireAuth';
 
 import WeeklyPage from './pages/WeeklyPage';
+import LandingPage from './pages/LandingPage';
 
 
 
 const router = createBrowserRouter( createRoutesFromElements(
   <>
-  <Route path='/' element={<Navigate to='/dashboard' replace />} />
+  {/*<Route path='/' element={<Navigate to='/dashboard' replace />} />*/}
+  <Route path ='/' element = { <LandingPage /> } />
   <Route path='/login' element = { <LoginPage /> } />
 
   <Route element = { <RequireAuth /> } >
-  <Route path="/" element = { <NavBar /> }>
+  {/*<Route path="/" element = { <NavBar /> }>*/}
+  <Route element = { <NavBar /> } >
     <Route path='/dashboard' element={ <DashboardPage />} />
     <Route path="/profile" element={ <ProfilePage /> } />
     <Route path='/group' element={ <GroupPage /> } />

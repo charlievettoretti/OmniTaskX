@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateCatagory, fetchCategories } from './catagorySlice';
+import styles from './modules/AddCatagoryModal.module.css';
 
 function EditCatagoryModal({ catagory, toggleEditCatagoryModal }) {
     const dispatch = useDispatch();
@@ -47,27 +48,29 @@ function EditCatagoryModal({ catagory, toggleEditCatagoryModal }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h3>Edit Category</h3>
-            <label>
-                Name: 
+        <form className={styles.catagoryForm} onSubmit={handleSubmit}>
+            <h3 className={styles.newCatagoryTitle}>Edit Category</h3>
+            <div>
+                <label htmlFor='catagoryName'>Category:</label>
+                <br />
                 <input
-                type="text"
-                value={catagoryName}
-                onChange={(e) => setCatagoryName(e.target.value)}
-                />
-            </label>
-            <br />
-            <label>
-                Color: 
+                    id='catagoryName'
+                    type="text"
+                    value={catagoryName}
+                    onChange={(e) => setCatagoryName(e.target.value)}/>
+                <br />
+            </div>
+            <div>
+                <label htmlFor='catagoryColor'>Color:</label> 
+                <br />
                 <input
-                type="color"
-                value={catagoryColor}
-                onChange={(e) => setCatagoryColor(e.target.value)}
-                />
-            </label>
-            <br />
-            <button type="submit">Save Changes</button>
+                    id='catagoryColor'
+                    type="color"
+                    value={catagoryColor}
+                    onChange={(e) => setCatagoryColor(e.target.value)} />
+                <br />
+            </div>
+            <button type="submit" className={styles.addButton}>Save Changes</button>
         </form>
     );
 }
