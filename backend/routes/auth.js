@@ -33,13 +33,33 @@ router.post('/register', async (req, res) => {
         })
 
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: 'Registration failed' });
     }
 });
-
+/*
 router.post('/login', passport.authenticate('local'), (req, res) => {
     res.json({ message: 'Login Successful', user: req.user });
+});*/
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        if (!user) {
+            return res.status(401).json({ error: info.message || 'Incorrect email or password' });
+        }
+
+        req.logIn(user, (err) => {
+            if (err) {
+                return res.status(500).json({ error: 'Session save failed' });
+            }
+            return res.json({ message: 'Login successful', user });
+        });
+    })(req, res, next);
 });
+
 
 router.post('/logout', (req, res) => {
     req.logout((err) => {

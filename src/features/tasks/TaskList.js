@@ -5,7 +5,7 @@ import { selectGroups } from '../groups/groupSlice';
 import { selectCatagory } from '../catagories/catagorySlice';
 import { fetchGroupTasks, fetchAllGroupTasks, selectGroupTasks, updateGroupTaskStatus } from '../groups/groupTasks/groupTasksSlice';
 import styles from './modules/TaskList.module.css';
-import Task from './Task';
+//import Task from './Task';
 
 const TaskList = () => {
     const dispatch = useDispatch();
@@ -347,7 +347,7 @@ const TaskList = () => {
                         />
                     </div>
                 </div>
-                <Task />
+                {/*<Task />*/}
             </div>
 
             {/* Active Tasks Section */}

@@ -14,29 +14,48 @@ import groupRoutes from './routes/groups.js';
 import groupTaskRoutes from './routes/groupTasks.js';
 import aiRoutes from './routes/ai.js';
 
+// For Deployment
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
 const app = express();
 const PgSession = pgSession(session);
-/*
-const FRONTEND_WHITELIST = [
-    'http://localhost:3000',
-    'https://r08lxx6d-3000.use.devtunnels.ms/',
-    'https://omnitaskx.com'
-];*/
+
+// for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }));
+
+// FROM CODECADEMY - if (process.env.NODE_ENV) === 'development' ->
+
+/*
+app.use(cors({
+    origin: true,     // For Deployment - same Origin
+    credentials: true
+}));*/
+
+
+
 app.use(express.json());
+
+const isProduction = process.env.NODE_ENV === 'production'; // Changes based on production or not
+
+app.set('trust proxy', 1);              // Allows secure cookies behind Render proxy
 
 app.use(
     session({
         store: new PgSession({ 
             pool,
-            createTableIfMissing: true  // ONLY FOR DEV (TEMP?)
+            //createTableIfMissing: true  // ONLY FOR DEV (TEMP?)
+            createTableIfMissing: !isProduction
          }),
         secret: process.env.SESSION_SECRET,
         resave: false,
@@ -44,8 +63,10 @@ app.use(
         cookie: {
             maxAge: 1000 * 60 * 60 * 24, // 1 day
             httpOnly: true,
-            secure: false, // SET TO TRUE WHEN USING HTTPS
-            sameSite: 'lax'
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
+            //secure: false, // SET TO TRUE WHEN USING HTTPS
+            //sameSite: 'lax'
         }
     })
 );
@@ -93,6 +114,16 @@ app.use('/events', eventRoutes);
 app.use('/groups', groupRoutes);
 app.use('/group-tasks', groupTaskRoutes);
 app.use('/ai', aiRoutes);
+
+if (isProduction) {
+    const buildPath = path.join(__dirname, '..', 'build');
+
+    app.use(express.static(buildPath));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(buildPath, 'index.html'));
+    });
+}
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

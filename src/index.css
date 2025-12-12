@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* User can't scroll page when a modal is active */
+body.activeModal {
+  overflow: hidden;
+}

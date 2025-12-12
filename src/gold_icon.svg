@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<svg width="103" height="103" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <g class="layer">
+  <defs>
+   <linearGradient id="SvgjsLinearGradient1030">
+    <stop id="SvgjsStop1031" offset="0" stop-color="#905E26"/>
+    <stop id="SvgjsStop1032" offset="0.5" stop-color="#F5EC9B"/>
+    <stop id="SvgjsStop1033" offset="1" stop-color="#905E26"/>
+   </linearGradient>
+   <linearGradient id="SvgjsLinearGradient1030">
+    <stop id="SvgjsStop1031" offset="0" stop-color="#905E26"/>
+    <stop id="SvgjsStop1032" offset="0.5" stop-color="#F5EC9B"/>
+    <stop id="SvgjsStop1033" offset="1" stop-color="#905E26"/>
+   </linearGradient>
+   <pattern height="100" id="gridpattern" patternUnits="userSpaceOnUse" width="100" x="0" y="0">
+    <image height="100" id="svg_16" width="100" x="0" y="0"/>
+   </pattern>
+   <pattern height="100" id="gridpattern" patternUnits="userSpaceOnUse" width="100" x="0" y="0">
+    <image height="100" id="svg_2" width="100" x="0" y="0"/>
+   </pattern>
+  </defs>
+  <g id="svg_1">
+   <g id="svg_5">
+    <g fill="url(#SvgjsLinearGradient1030)" id="svg_11" transform="matrix(2.08304 0 0 2.08304 294.979 17.3588)">
+     <title xmlns="http://www.w3.org/2000/svg">Shape 24</title>
+     <g fill="none" fill-rule="evenodd" id="svg_12" xmlns="http://www.w3.org/2000/svg">
+      <g fill="url(#SvgjsLinearGradient1030)" fill-rule="nonzero" id="svg_13" transform="translate(-293 -1115)">
+       <g id="svg_14" transform="translate(293.943 1115.59)">
+        <path d="m-142.329322,-8.75472l49.425,0l0,49.424l-4.32,-6.324l0,-38.779l-40.784,0l0,40.785l8.01,0l7.731,-11.32l2.683,3.947l-7.986,11.691l-14.757,0l-0.002,-49.424l0,0zm27.757,45.106l8.412,0l-11.067,-16.484l10.858,-15.896l3.773,2.379l-9.646,14.121l13.854,20.199l-9.041,0l-7.143,-4.319l0,0zm-15.505,-33.047l6.428,3.045l3.575,5.27l-2.148,3.105l-7.855,-11.42l0,0z" fill="#000000" id="svg_15"/>
+       </g>
+      </g>
+     </g>
+    </g>
+    <path d="m75.49999,94.6l-22.49999,-34.6l21,-32l-16,0l-16,21c-5,-7.33333 -10,-14.66667 -15,-22l-15,0l20,32l-23,35l17,0l16,-23l18,23.5l15.49999,0.1z" fill="url(#SvgjsLinearGradient1030)" id="svg_17" stroke="#000000" stroke-width="2"/>
+   </g>
+  </g>
+ </g>
+</svg>

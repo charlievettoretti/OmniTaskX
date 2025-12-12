@@ -6,8 +6,8 @@ import AddTaskModal from './AddTaskModal';
 import { useSelector } from 'react-redux';
 import { selectTask } from './taskSlice';
 
-import TasksWeek from './TasksWeek.js';
-import TasksPerWeek from './TasksPerWeek.js';
+//import TasksWeek from './TasksWeek.js';
+//import TasksPerWeek from './TasksPerWeek.js';
 
 
 function Task() {
@@ -32,15 +32,15 @@ function Task() {
     /* MODAL */
     const [modal, setModal] = useState(false);
 
-    const toggleModal = () => {
+    const toggleTaskModal = () => {
         setModal(!modal)
-    
     }
+    /*
     if (modal) {
         document.body.classList.add('activeModal');
     } else {
         document.body.classList.remove('activeModal');
-    }
+    }*/
     
     return (
         <div className={styles.taskPage}>
@@ -50,18 +50,15 @@ function Task() {
     >New Note</ModalButton>*/}
             {/*<ul>{taskList}</ul>*/}
 
-            <button onClick={toggleModal} className={styles.addTaskButton}>
-                <a className="btn2"><span className="spn2">Add Task</span></a>
-            </button>
+            <button onClick={toggleTaskModal} className={styles.addTaskButton}>Add Task</button>
 
-            
             {modal && 
                 <div className={styles.modal}>
-                    <div className={styles.overlay} onClick={toggleModal}></div>
+                    <div className={styles.overlay} onClick={toggleTaskModal}></div>
                     <div className={styles.modalContent}>
                         
-                        <button onClick={toggleModal} className={styles.closeModal}>X</button>
-                        <AddTaskModal toggleModal={toggleModal}></AddTaskModal>
+                        <button onClick={toggleTaskModal} className={styles.closeModal}>X</button>
+                        <AddTaskModal toggleTaskModal={toggleTaskModal}></AddTaskModal>
                         
                     </div>
                 </div>

@@ -6,6 +6,7 @@ import Events from '../features/events/Events.js';
 import GeneralTasks from '../features/general/GeneralTasks.js';
 import Catagory from '../features/catagories/Catagory.js';
 import Event from '../features/events/Event.js';
+import Task from '../features/tasks/Task.js';
 
 function ToDoPage() {
     const [activeSection, setActiveSection] = useState('tasks'); // 'tasks', 'categories', 'events'
@@ -47,12 +48,16 @@ function ToDoPage() {
             <div className={styles.todoContent}>
                 {activeSection === 'tasks' && (
                     <div className={styles.tasksSection}>
-                        {/*
+
                         <div className={styles.sectionHeader}>
-                            <h2>Task Management</h2>
-                            <p>Create, organize, and track your tasks</p>
+                            <div>
+                                <h2>Task Management</h2>
+                                <p>Create, organize, and track your tasks</p>
+                            </div>
+                            <Task />
+
                         </div>
-                        */}
+
                         
                         <div className={styles.tasksContent}>
                             <TaskList />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './modules/AddTaskModal.module.css';
 /*import ModalAddTaskButton from './buttons/ModalAddTaskButton';*/
 import { useDispatch, useSelector } from 'react-redux';
@@ -118,6 +118,14 @@ function AddTaskModal({ toggleTaskModal }) {
         setUrgency(3);
         */
     }
+
+    useEffect(() => {
+        document.body.classList.add('activeModal');
+        return () => {
+            document.body.classList.remove('activeModal');
+        }
+    }, []);
+
     return (
         <form className={styles.taskForm} onSubmit={handleSubmit}>
             <h3 className={styles.newTaskTitle}>Add New Task</h3>

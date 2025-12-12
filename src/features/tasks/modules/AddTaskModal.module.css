@@ -2,6 +2,7 @@
 .taskForm {
     display: flex;
     flex-direction: column;
+    text-align: left;
     gap: 1rem;
     padding: 1rem;
     max-height: calc(90vh - 4rem);

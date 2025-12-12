@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectCatagory } from './catagorySlice';
+//import { useSelector } from 'react-redux';
+//import { selectCatagory } from './catagorySlice';
 import styles from './modules/Catagories.module.css';
 
 import AddCatagoryModal from './AddCatagoryModal';
-import Catagory from './Catagory';
+//import Catagory from './Catagory';
 
 
 function Catagories() {
-    const catagories = useSelector(selectCatagory);
+    //const catagories = useSelector(selectCatagory);
 
     const [modal, setModal] = useState(false);
 
-    const toggleCatagoryModal = () => {
+    const toggleCategoryModal = () => {
         setModal(!modal);
     };
 
@@ -24,15 +24,15 @@ function Catagories() {
 
     return (
         <div>
-            <button onClick={toggleCatagoryModal} className={styles.addCatagoryButton}>Add Catagory</button>
+            <button onClick={toggleCategoryModal} className={styles.addCatagoryButton}>Add Catagory</button>
 
             {modal && 
                 <div className={styles.modal}>
-                    <div className={styles.overlay} onClick={toggleCatagoryModal}></div>
+                    <div className={styles.overlay} onClick={toggleCategoryModal}></div>
                     <div className={styles.modalContent}>
                         
-                        <button onClick={toggleCatagoryModal} className={styles.closeModal}>X</button>
-                        <AddCatagoryModal toggleCatagoryModal={toggleCatagoryModal}></AddCatagoryModal>
+                        <button onClick={toggleCategoryModal} className={styles.closeModal}>X</button>
+                        <AddCatagoryModal toggleCategoryModal={toggleCategoryModal}></AddCatagoryModal>
                         
                     </div>
                 </div>
